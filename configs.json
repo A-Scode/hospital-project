@@ -1,0 +1,16 @@
+{
+    "web_instance" : {
+        "domain" : "localhost",
+        "base_url": "locahost:3000",
+        "port" : 3000
+    },
+
+    "database" : {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "hospital",
+        "USER" :  "djnago",
+        "PASSWORD" : "django1236",
+        "HOST" : "127.0.0.1",
+        "PORT" : 3306
+    }
+}
