@@ -9,7 +9,7 @@ user_status_choices = [('Doctor' , 'Doctor') , ('Patient' , 'Paitient')]
 class User(models.Model): 
     user_id = models.CharField(max_length =5  , primary_key= True , null= False)
     user_type = models.CharField( choices = user_choices , null = False  , max_length=100)
-    user_status = models.CharField( choices=user_status_choices , max_length=100  , null=False , default=False )
+    user_status = models.CharField( choices=user_status_choices , max_length=100  , default=False )
 
 class Doctor(models.Model) :
     user_id = models.ForeignKey( to = User , on_delete = models.CASCADE)

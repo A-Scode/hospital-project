@@ -11,4 +11,7 @@ def hello(request ):
     return JsonResponse({"hello" : "hii"})
 
 
+# @api_view(['POST'])
+
+
 
