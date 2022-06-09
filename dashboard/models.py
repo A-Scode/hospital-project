@@ -3,8 +3,8 @@ from django.db import models
 
 # Create your models here.
 
-user_choices = [('Doctor' , 'Doctor') , ('Patient' , 'Paitient')]
-user_status_choices = [('Doctor' , 'Doctor') , ('Patient' , 'Paitient')]
+user_choices = [('Doctor' , 'Doctor') , ('Patient' , 'Patient')]
+user_status_choices = [('online' , 'online') , ('offline' , 'offline')]
 
 class User(models.Model): 
     user_id = models.CharField(max_length =5  , primary_key= True , null= False)

@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-import json
+import json,os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -55,8 +55,22 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTAILS = True
+COTS_ALLOW_HEADERS = ['x-csrftoken']
+CORS_ALLOW_HEADER = ['*']
+CORS_ORIGIN_WHITELIST =[
+    'http://localhost:3000'
+]
+
+CSRF_TRUSTED_ORIGINS = [
+'http://localhost:3000'
+]
 
 ROOT_URLCONF = 'hospital.urls'
+
+MEDIA_URL = '/api/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR ,  'media')
 
 TEMPLATES = [
     {

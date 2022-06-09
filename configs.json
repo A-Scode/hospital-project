@@ -8,7 +8,7 @@
     "database" : {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "hospital",
-        "USER" :  "djnago",
+        "USER" :  "django",
         "PASSWORD" : "django1236",
         "HOST" : "127.0.0.1",
         "PORT" : 3306
