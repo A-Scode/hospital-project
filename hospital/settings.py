@@ -69,7 +69,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 ROOT_URLCONF = 'hospital.urls'
 
-MEDIA_URL = '/api/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR ,  'media')
 
 TEMPLATES = [

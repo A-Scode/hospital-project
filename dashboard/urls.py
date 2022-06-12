@@ -8,6 +8,11 @@ urlpatterns = [
     path('username_exists' , username_exists),
     path('email_exists' , email_exists),
     path('signup' , signup),
+    path('login' , login),
+    path('get_user_details' , get_user_details),
+    path('logout' , logout),
+    path('check_drafts' , check_drafts),
+    path('draft_blog' , draft_blog),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
