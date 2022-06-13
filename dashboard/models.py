@@ -41,7 +41,7 @@ class Blog(models.Model):
     image_path = models.CharField(max_length=500 , null=True)
     category = models.CharField(max_length=100  , choices= blog_category_choices)
     summary = models.CharField(max_length=300 , null = True )
-    content = models.CharField(max_length=2000 ,null = True )
+    content = models.TextField(null = True )
     blog_status = models.CharField(max_length = 50  , choices= blog_status_choices)
     publish_datetime = models.DateTimeField(auto_now_add=True)
 

@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -10,6 +11,13 @@ from django.core.files.storage import FileSystemStorage
 
 
 # Create your views here.
+
+
+class OverwriteStorage(FileSystemStorage):
+    def get_available_name(self , name , max_length):
+        if self.exists(name):
+            os.remove(os.path.join(settings.MEDIA_ROOT , name))
+        return name
 
 
 #Check for running
@@ -82,7 +90,7 @@ def signup(request):
 
 
         if( len(request.FILES)>0):
-            fs = FileSystemStorage()
+            fs = OverwriteStorage()
             file = request.FILES['profile_photo']
             print(request.FILES['profile_photo'])
             filename = os.path.join('profile_photos/',user_id +request.FILES['profile_photo'].name[-4:])
@@ -174,17 +182,107 @@ def check_drafts(request):
 @api_view(['POST'])
 @csrf_exempt
 def draft_blog(request):
-    data = json.loads(request.headers['data'])
+    data = json.loads(request.POST['data'])
+
+    blog_id = None
+    blog = None
+    img_path = ""
+    user = User.objects.get(user_id = data['user_id'])
+    exsist  = None;
 
     if('blog_id' in data.keys()):
-        Blog.objects.filter(blog_id = data['blog_id']).update(
-            blog_title = data['blog_title'],
-        )
+        blog_id = data['blog_id']
+        exsist = True
+        
+    else:
+        blog_id = utils.generate_blog_id()
+        exsist = False
 
+            
     
+    if( len(request.FILES)>0):
+        filename = os.path.join('blog_title_imgs/',blog_id +request.FILES['blog_title_imgae'].name[-4:])
+        if (os.path.exists(filename)): os.remove(filename)
+        fs = OverwriteStorage()
+        file = request.FILES['blog_title_imgae']
+        print(request.FILES['blog_title_imgae'])
+        fs.save( filename , file)
+        
+        utils.compress_image(filename)
+        img_path = "blog_title_imgs/"+blog_id+".png"
     
+    print(img_path)
 
         
+    if exsist:
+        blog = Blog.objects.get(blog_id = blog_id)
+
+        blog.blog_id  = blog_id
+        blog.user_id  = user
+        blog.blog_title  = data['blog_title']
+        blog.image_path  = img_path
+        blog.category  = data['category']
+        blog.summary  = data['summary']
+        blog.content  = data['content']
+        blog.blog_status  = data['type']
+        blog.publish_datetime = datetime.now()
+
+        blog.save()
+    else : 
+        blog = Blog(
+        blog_id = blog_id,
+        user_id = user,
+        blog_title = data['blog_title'],
+        image_path = img_path,
+        category = data['category'],
+        summary = data['summary'],
+        content = data['content'],
+        blog_status = data['type'],
+        publish_datetime= datetime.now(),
+        )
+
+        blog.save()
+
+
+
+
+    return JsonResponse({'status' : "success"})
+
+
+@api_view(['POST'])
+@csrf_exempt
+def get_blog_data(request):
+    try:
+        blog_id = request.headers['blog-id']
+
+        blog = Blog.objects.get(blog_id = blog_id)
+
+        data = utils.get_blog_details(blog)
+
+        return JsonResponse({"status" : "success" , "data" : data})
+    except:
+        return JsonResponse({"status" : "fail" })
+
+@api_view(['POST'])
+@csrf_exempt
+def blog_by_category(request):
+    mental_health , heart_disease , covid19 , immunization = [],[],[],[]
+
+    blogs = Blog.objects.filter(blog_status = "Uploaded")
+
+    for blog in blogs:
+        res = utils.get_blog_details(blog)
+        if (blog.category == "Metal Helth"): mental_health.append(res)
+        elif (blog.category == "Heart Disease") : heart_disease.append(res)
+        elif (blog.category == "COVID-19") : covid19.append(res)
+        elif (blog.category == "Immunization") : immunization.append(res)
+    
+    return JsonResponse({ "status" : "success" , "data":{
+        "mental_health":mental_health,
+        "heart_disease":heart_disease,
+        "covid19":covid19,
+        "immunization":immunization
+    }})
 
         
     

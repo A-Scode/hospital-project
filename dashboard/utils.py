@@ -69,8 +69,10 @@ def compress_image(image_url):
         w=400
         h = int(400*(height/width))
     img = img.resize((w,h))
-    img_path = os.path.join(settings.MEDIA_ROOT,image_url[:-3]+'png')
-    img.save(img_path )
+    img_path = image_url[:-3]+'png'
+
+    if (os.path.exists(os.path.join(settings.MEDIA_ROOT, image_url ))): os.remove(os.path.join(settings.MEDIA_ROOT, image_url ))
+    img.save(os.path.join(settings.MEDIA_ROOT,img_path ))
     return img_path
 
 def encrypt_pass(password):
@@ -110,8 +112,8 @@ def get_blog_details(blog):
     res_data['category'] = blog.category
     res_data['summary'] = blog.summary
     res_data['content'] = blog.content
-    res_data['blog_status'] = blog.user_id.blog_status
-    res_data['publish_datetime'] = blog.pusblish_datetime.strftime("%d/%m/%Y")
+    res_data['blog_status'] = blog.blog_status
+    res_data['publish_datetime'] = blog.publish_datetime.strftime("%d/%m/%Y")
 
     return res_data
 
