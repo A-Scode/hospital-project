@@ -1,5 +1,6 @@
+import re
 from django.conf import settings
-from .models import User,Doctor,Paitient,Blog
+from .models import User,Doctor,Paitient,Blog,Appointment
 from PIL import Image
 import os , json
 from cryptography.fernet import Fernet
@@ -24,6 +25,17 @@ def generate_blog_id():
     id += str(blogs)
 
     print(f"generated blog id : {id}")
+
+    return id
+
+def generate_appointment_id():
+    appointment = len(Appointment.objects.all())+1
+    length = len(str(appointment))
+    id = 'A' 
+    id += "0"*(4-length)
+    id += str(appointment)
+
+    print(f"generated appointment id : {id}")
 
     return id
 
@@ -117,5 +129,16 @@ def get_blog_details(blog):
 
     return res_data
 
+def get_appointment_details(appointment):
+    res_data = {}
+    res_data['appointment_id'] = appointment.appointment_id
+    res_data['doctor_id']=appointment.doctor_id
+    res_data['paitient_id'] = appointment.paitient_id
+    res_data['doctor_name']=appointment.doctor_name
+    res_data['req_speciality'] =appointment.req_speciality
+    res_data['date']=appointment.date
+    res_data['start_time'] = appointment.start_time
+    res_data['end_time']= appointment.end_time
 
+    return res_data
     

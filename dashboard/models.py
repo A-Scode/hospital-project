@@ -1,5 +1,6 @@
 from random import choices
 from django.db import models
+import datetime
 from django.db.models.fields.related import ForeignKey
 
 # Create your models here.
@@ -44,4 +45,18 @@ class Blog(models.Model):
     content = models.TextField(null = True )
     blog_status = models.CharField(max_length = 50  , choices= blog_status_choices)
     publish_datetime = models.DateTimeField(auto_now_add=True)
+
+
+class Appointment(models.Model):
+    appointment_id = models.CharField(primary_key= True , max_length= 5  ,null = False )
+    doctor_id = models.ForeignKey(to = Doctor , on_delete= models.CASCADE)
+    paitient_id = models.ForeignKey(to = Paitient , on_delete= models.CASCADE)
+    doctor_name = models.CharField( max_length= 50  , null= False)
+    req_speciality = models.TextField(max_length= 100 , default= ""  )
+    date = models.DateField( )
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+
+
 

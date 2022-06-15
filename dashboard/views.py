@@ -131,7 +131,8 @@ def login(request):
         else:
             return JsonResponse({'status' : "invalid Username"})
 
-    except:
+    except Exception as e:
+        print(e)
         return JsonResponse({'status' : "error occured or invalid user type"})
 
 
@@ -210,6 +211,9 @@ def draft_blog(request):
         
         utils.compress_image(filename)
         img_path = "blog_title_imgs/"+blog_id+".png"
+    else:
+        img_path = "blog_title_imgs/"+blog_id+".png"
+
     
     print(img_path)
 
@@ -284,13 +288,17 @@ def blog_by_category(request):
         "immunization":immunization
     }})
 
-        
-    
+@api_view(['POST'])
+@csrf_exempt
+def doctor_list(request):
+    res_list = []
+    doctors = Doctor.objects.all()
 
+    for doctor in doctors:
+        details = utils.get_user_details(doctor)
+        res_list.append(details)
 
-    
-
-
+    return JsonResponse({'status' : 'success' , 'doc_list' : res_list})
 
 
 

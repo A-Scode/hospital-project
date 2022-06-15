@@ -8,10 +8,12 @@
     "database" : {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "hospital",
-        "USER" :  "django",
+        "STORAGE_ENGINE": "InnoDB",
+        "USER" :  "djnago",
         "PASSWORD" : "django1236",
         "HOST" : "127.0.0.1",
         "PORT" : 3306
+        
     },
 
     "fernetKey" : "0JVRhKFjRXO54g6Kb52kcvWYEWOYW_qy3TCMQ-zII0c="

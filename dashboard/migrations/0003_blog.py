@@ -16,10 +16,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('blog_id', models.CharField(max_length=5, primary_key=True, serialize=False)),
                 ('blog_title', models.CharField(max_length=50)),
-                ('image_path', models.CharField(default='', max_length=500)),
+                ('image_path', models.CharField(default='', max_length=50000)),
                 ('category', models.CharField(choices=[('Metal Helth', 'Metal Helth'), ('Heart Disease', 'Heart Disease'), ('COVID-19', 'COVID-19'), ('Immunization', 'Immunization')], max_length=100)),
                 ('summary', models.CharField(default='No Summary', max_length=300)),
-                ('content', models.CharField(default='No Content', max_length=2000)),
+                ('content', models.TextField(default='No Content', max_length=5000)),
                 ('blog_status', models.CharField(choices=[('Draft', 'Draft'), ('Uploaded', 'Uploaded')], max_length=50)),
                 ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dashboard.user')),
             ],
