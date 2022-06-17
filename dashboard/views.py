@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 import json,os
 from . import utils
-from dashboard.models import User , Doctor , Paitient , Blog
+from dashboard.models import Appointment, User , Doctor , Paitient , Blog
 from django.core.files.storage import FileSystemStorage
 
 
@@ -299,6 +299,53 @@ def doctor_list(request):
         res_list.append(details)
 
     return JsonResponse({'status' : 'success' , 'doc_list' : res_list})
+
+
+@api_view(['POST'])
+@csrf_exempt
+def book_appointment(request):
+    
+    data = json.loads(request.headers['data'])
+    appointment_id = utils.generate_appointment_id()
+    
+    
+    print(data)
+
+    doctor_user = User.objects.get(user_id = data['doctor_id'])
+    doctor = Doctor.objects.get(user_id = doctor_user)
+
+    paitient_user = User.objects.get(user_id = data['paitient_id'])
+    paitient = Paitient.objects.get(user_id = paitient_user)
+
+    date = datetime.strptime(data['date'] , "%Y-%m-%d")
+
+    appointment = Appointment(
+    doctor_id = doctor,
+    appointment_id = appointment_id,
+    paitient_id = paitient,
+    doctor_name = doctor.first_name + " "+ doctor.last_name,
+    req_speciality = data['req_speciality'],
+    date = date,
+    start_time = data['start_time'],
+    end_time = data['end_time']
+    )
+
+    appointment.save()
+
+    return JsonResponse({"status" : "success" , "appoint_id" : appointment_id})
+
+@api_view(['POST'])
+@csrf_exempt
+def appointment_details(request):
+    appointment_id = request.headers['appoint_id']
+    print(appointment_id)
+
+    appointment = Appointment.objects.get(appointment_id=appointment_id)
+
+    res_data = utils.get_appointment_details(appointment)
+
+    return JsonResponse({"status" : "success" , "details" : res_data})
+
 
 
 

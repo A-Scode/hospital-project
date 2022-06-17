@@ -48,7 +48,7 @@ class Blog(models.Model):
 
 
 class Appointment(models.Model):
-    appointment_id = models.CharField(primary_key= True , max_length= 5  ,null = False )
+    appointment_id = models.CharField(primary_key= True , max_length= 50  ,null = False )
     doctor_id = models.ForeignKey(to = Doctor , on_delete= models.CASCADE)
     paitient_id = models.ForeignKey(to = Paitient , on_delete= models.CASCADE)
     doctor_name = models.CharField( max_length= 50  , null= False)

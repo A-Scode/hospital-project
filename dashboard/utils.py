@@ -132,8 +132,8 @@ def get_blog_details(blog):
 def get_appointment_details(appointment):
     res_data = {}
     res_data['appointment_id'] = appointment.appointment_id
-    res_data['doctor_id']=appointment.doctor_id
-    res_data['paitient_id'] = appointment.paitient_id
+    res_data['doctor_id']=appointment.doctor_id.user_id.user_id
+    res_data['paitient_id'] = appointment.paitient_id.user_id.user_id
     res_data['doctor_name']=appointment.doctor_name
     res_data['req_speciality'] =appointment.req_speciality
     res_data['date']=appointment.date

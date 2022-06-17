@@ -15,7 +15,9 @@ urlpatterns = [
     path('draft_blog' , draft_blog),
     path('get_blog_data' , get_blog_data),
     path('blog_by_category' , blog_by_category),
-    path('doctor_list' , doctor_list)
+    path('doctor_list' , doctor_list),
+    path('book_appointment' , book_appointment),
+    path('appointment_details' , appointment_details)
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
